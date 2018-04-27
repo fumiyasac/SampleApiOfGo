@@ -2,47 +2,43 @@ package main
 
 //パッケージの宣言
 import (
-	"database/sql"
-	"log"
-
+	"github.com/fumiyasac/SampleApi/controllers"
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 )
 
 //メイン処理部分
 func main() {
-	//GInの読み込み
-	r := gin.Default()
 
-	//接続テスト
-	getDB()
+	//Ginの読み込み
+	router := gin.Default()
 
-	//APIのエンドポイントの設定
-	v1 := r.Group("api/v1")
+	//テンプレートの場所設定
+	router.LoadHTMLGlob("views/templates/*.html")
+
+	//Webサイトのルーティング設定
+	website := router.Group("")
 	{
-		//TOP画面用の文言を出す
-		v1.GET("/top", getHello)
+		//トップページのコントローラー呼び出し
+		topController := new(controllers.TopController)
+
+		//トップページの表示
+		website.GET("/", topController.Index)
+	}
+
+	//APIのエンドポイント設定
+	webapi := router.Group("api")
+	{
+		//API用のコントローラー呼び出し
+		apiController := new(controllers.APIController)
+
+		//バージョン情報
+		v1 := webapi.Group("v1")
+		{
+			//エンドポイントへのリクエスト
+			v1.GET("/top", apiController.Top)
+		}
 	}
 
 	//実行
-	r.Run(":8080")
-}
-
-//ハローメッセージの組み立て
-func getHello(c *gin.Context) {
-	content := gin.H{
-		"message": "Hello, サンプルアプリトップページへ！",
-	}
-	c.JSON(200, content)
-}
-
-//Databaseとの接続を行う
-func getDB() (db *sql.DB) {
-	db, err := sql.Open("mysql", "root:root/reizoukoseiri")
-	if err != nil {
-		log.Fatal("Open Database Error: %v", err)
-	} else {
-		log.Println("Success!")
-	}
-	return db
+	router.Run(":8080")
 }
