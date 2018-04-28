@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>{{.title}}</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="start" href="/">
+<link rel="index" href="/" title="">
+<meta http-equiv="imagetoolbar" content="no">
+<meta name="viewport" content="width=1020px,user-scalable=yes">
+</head>
+<body>
+<div id="wrapper">
+<div id="container">
+{{include "layouts/global_top_header"}}
+<div id="mainContents">
+<div id="leftContents">
+{{/* 左カラムコンテンツが入ります */}}
+</div>
+{{template "content" .}}
+<div id="rightContents">
+{{/* 右カラムコンテンツが入ります */}}
+</div>
+</div>
+{{include "layouts/global_top_footer"}}
+</div>
+</div>
+</body>
+</html>
+

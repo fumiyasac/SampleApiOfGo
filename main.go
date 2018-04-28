@@ -2,6 +2,7 @@ package main
 
 //パッケージの宣言
 import (
+	"github.com/foolin/gin-template"
 	"github.com/fumiyasac/SampleApi/controllers"
 	"github.com/gin-gonic/gin"
 )
@@ -12,8 +13,14 @@ func main() {
 	//Ginの読み込み
 	router := gin.Default()
 
-	//テンプレートの場所設定
-	router.LoadHTMLGlob("views/templates/*.html")
+	//テンプレートの設定
+	router.HTMLRender = gintemplate.New(gintemplate.TemplateConfig{
+		Root:         "views/templates",
+		Extension:    ".html",
+		Master:       "layouts/master",
+		Partials:     []string{},
+		DisableCache: true,
+	})
 
 	//Webサイトのルーティング設定
 	website := router.Group("")
