@@ -12,6 +12,9 @@ func main() {
 	//Ginの読み込み
 	router := gin.Default()
 
+	//静的htmlファイル表示の設定
+	router.Static("guide", "./static")
+
 	//APIのエンドポイント設定
 	webapi := router.Group("api")
 	{
