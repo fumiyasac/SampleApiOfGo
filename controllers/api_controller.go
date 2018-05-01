@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,5 +12,5 @@ func (ctrl *APIController) Top(c *gin.Context) {
 	content := gin.H{
 		"message": "Hello, サンプルアプリトップページへ！",
 	}
-	c.JSON(http.StatusOK, content)
+	c.JSON(200, content)
 }
