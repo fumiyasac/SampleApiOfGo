@@ -12,19 +12,6 @@ func main() {
 	//Ginの読み込み
 	router := gin.Default()
 
-	//テンプレートの場所設定
-	router.LoadHTMLGlob("views/templates/*.html")
-
-	//Webサイトのルーティング設定
-	website := router.Group("")
-	{
-		//トップページのコントローラー呼び出し
-		topController := new(controllers.TopController)
-
-		//トップページの表示
-		website.GET("/", topController.Index)
-	}
-
 	//APIのエンドポイント設定
 	webapi := router.Group("api")
 	{
