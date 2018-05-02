@@ -10,25 +10,25 @@ import (
 func main() {
 
 	//Ginの読み込み
-	router := gin.Default()
+	Router := gin.Default()
 
 	//静的htmlファイル表示の設定
-	router.Static("guide", "./static")
+	Router.Static("guide", "./static")
 
 	//APIのエンドポイント設定
-	webapi := router.Group("api")
+	APIRouter := Router.Group("api")
 	{
 		//API用のコントローラー呼び出し
-		apiController := new(controllers.APIController)
+		API := new(controllers.APIController)
 
 		//バージョン情報
-		v1 := webapi.Group("v1")
+		V1 := APIRouter.Group("v1")
 		{
 			//エンドポイントへのリクエスト
-			v1.GET("/top", apiController.Top)
+			V1.GET("/top", API.Top)
 		}
 	}
 
 	//実行
-	router.Run(":8080")
+	Router.Run(":8080")
 }
