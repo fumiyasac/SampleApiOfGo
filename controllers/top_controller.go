@@ -1,22 +1,23 @@
 package controllers
 
-//パッケージの宣言
 import (
-	"github.com/fumiyasac/SampleApi/models"
+	"net/http"
+
+	"github.com/fumiyasac/SampleApi/repositories"
 	"github.com/gin-gonic/gin"
 )
 
-//TopController ... TopControllerの構造体宣言
+// TopController ... 構造体宣言
 type TopController struct{}
 
-//GetMessage ...
+// GetMessage ... TOPメッセージを表示する
 func (ctrl TopController) GetMessage(c *gin.Context) {
 
-	repository := models.NewTopMessageRepository()
+	repository := repositories.NewTopMessageRepository()
 	topMessage := repository.GetTopMessage()
 
 	JSONContent := gin.H{
 		"top_message": topMessage,
 	}
-	c.JSON(200, JSONContent)
+	c.JSON(http.StatusOK, JSONContent)
 }

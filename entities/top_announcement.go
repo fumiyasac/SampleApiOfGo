@@ -1,6 +1,6 @@
-package models
+package entities
 
-//TopAnnouncement ... TOPお知らせ用の構造体宣言
+// TopAnnouncement ... TOPお知らせ用の構造体
 type TopAnnouncement struct {
 	ID         int    `json:"id"`
 	Title      string `json:"title"`

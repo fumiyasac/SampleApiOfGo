@@ -1,26 +1,41 @@
 package controllers
 
-//パッケージの宣言
 import (
+	"net/http"
 	"strconv"
 
-	"github.com/fumiyasac/SampleApi/models"
+	"github.com/fumiyasac/SampleApi/repositories"
 	"github.com/gin-gonic/gin"
 )
 
-//UserController ... UserControllerの構造体宣言
+// UserController ... 構造体宣言
 type UserController struct{}
 
-//GetUser ...
+// GetUser ... idに該当するユーザーを表示する
 func (ctrl UserController) GetUser(c *gin.Context) {
 
 	var id int
-	id, _ = strconv.Atoi(c.Param("id"))
-	repository := models.NewUserRepository()
-	user := repository.GetByID(id)
+	id, err := strconv.Atoi(c.Param("id"))
 
-	JSONContent := gin.H{
-		"user": user,
+	var JSONContent gin.H
+	if err != nil {
+		JSONContent = gin.H{
+			"message": "Parameter is invalid.",
+		}
+		c.JSON(http.StatusBadRequest, JSONContent)
+		return
 	}
-	c.JSON(200, JSONContent)
+
+	repository := repositories.NewUserRepository()
+	user := repository.GetByID(id)
+	if user != nil {
+		JSONContent = gin.H{
+			"user": user,
+		}
+	} else {
+		JSONContent = gin.H{
+			"message": "User not found.",
+		}
+	}
+	c.JSON(http.StatusOK, JSONContent)
 }
