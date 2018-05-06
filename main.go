@@ -4,6 +4,7 @@ package main
 import (
 	"github.com/fumiyasac/SampleApi/controllers"
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 //メイン処理部分
@@ -23,9 +24,12 @@ func main() {
 		{
 			//API用のコントローラー呼び出し
 			TopController := new(controllers.TopController)
+			UserController := new(controllers.UserController)
 
 			//エンドポイントへのリクエスト
 			v1.GET("/top", TopController.GetMessage)
+
+			v1.GET("/user/:id", UserController.GetUser)
 		}
 	}
 
