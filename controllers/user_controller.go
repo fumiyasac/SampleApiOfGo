@@ -15,14 +15,14 @@ type UserController struct{}
 func (ctrl UserController) GetUser(c *gin.Context) {
 
 	var id int
-	id, err := strconv.Atoi(c.Param("id"))
-
 	var JSONContent gin.H
+
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		JSONContent = gin.H{
-			"message": "Parameter is invalid.",
+			"message": "Unprocessable Entity.",
 		}
-		c.JSON(http.StatusBadRequest, JSONContent)
+		c.JSON(http.StatusUnprocessableEntity, JSONContent)
 		return
 	}
 
@@ -34,7 +34,7 @@ func (ctrl UserController) GetUser(c *gin.Context) {
 		}
 	} else {
 		JSONContent = gin.H{
-			"message": "User not found.",
+			"message": "User Not Found.",
 		}
 	}
 	c.JSON(http.StatusOK, JSONContent)
