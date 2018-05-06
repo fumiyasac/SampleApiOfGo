@@ -18,14 +18,14 @@ func main() {
 	//APIのエンドポイント設定
 	APIRouter := Router.Group("api")
 	{
-		//API用のコントローラー呼び出し
-		API := new(controllers.APIController)
-
 		//バージョン情報
-		V1 := APIRouter.Group("v1")
+		v1 := APIRouter.Group("v1")
 		{
+			//API用のコントローラー呼び出し
+			TopController := new(controllers.TopController)
+
 			//エンドポイントへのリクエスト
-			V1.GET("/top", API.Top)
+			v1.GET("/top", TopController.GetMessage)
 		}
 	}
 
