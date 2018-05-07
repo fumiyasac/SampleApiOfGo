@@ -16,7 +16,7 @@ func NewTopMessageRepository() TopMessageRepository {
 
 // GetTopMessage ... TOPメッセージを取得する
 // @Get("api/v1/top")
-func (m TopMessageRepository) GetTopMessage() factories.TopMessageFactory {
+func (repo TopMessageRepository) GetTopMessage() factories.TopMessageFactory {
 
 	// TOPお知らせの定義
 	var topAnnouncements = []entities.TopAnnouncement{

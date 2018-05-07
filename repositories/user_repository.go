@@ -26,7 +26,7 @@ func NewUserRepository() UserRepository {
 
 // GetByID ... 引数のidに該当するユーザー情報を取得する
 // @Get("api/v1/user/:id")
-func (m UserRepository) GetByID(id int) (factories.SingleUserFactory, bool) {
+func (repo UserRepository) GetByID(id int) (factories.SingleUserFactory, bool) {
 	var user = entities.User{ID: id}
 	var userFactory factories.SingleUserFactory
 	result, _ := engine.Get(&user)
