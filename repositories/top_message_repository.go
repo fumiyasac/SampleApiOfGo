@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"github.com/fumiyasac/SampleApi/entities"
+	"github.com/fumiyasac/SampleApi/factories"
 )
 
 // TopMessageRepository ... 構造体宣言
@@ -15,10 +16,10 @@ func NewTopMessageRepository() TopMessageRepository {
 
 // GetTopMessage ... TOPメッセージを取得する
 // @Get("api/v1/top")
-func (m TopMessageRepository) GetTopMessage() entities.TopMessage {
+func (m TopMessageRepository) GetTopMessage() factories.TopMessageFactory {
 
 	// TOPお知らせの定義
-	var TopAnnouncements = []entities.TopAnnouncement{
+	var topAnnouncements = []entities.TopAnnouncement{
 		entities.TopAnnouncement{
 			ID:         2,
 			Title:      "APIバージョン1.1を現在開発中です。",
@@ -33,12 +34,19 @@ func (m TopMessageRepository) GetTopMessage() entities.TopMessage {
 		},
 	}
 
-	// TOPメッセージの定義
-	var TopMessage = entities.TopMessage{
-		Title:         "Go言語で作るサンプルAPIテンプレート",
-		Version:       "1.0",
-		Detail:        "このAPIは自分でつくるサンプルアプリに合わせてカスタマイズする用のサンプルになります。適宜調整をして使ってみてください。",
-		Announcements: TopAnnouncements,
+	// TOP表示情報の定義
+	var topInformation = entities.TopInformation{
+		Title:   "Go言語で作るサンプルAPIテンプレート",
+		Version: "1.0",
+		Detail:  "このAPIは自分でつくるサンプルアプリに合わせてカスタマイズする用のサンプルになります。適宜調整をして使ってみてください。",
 	}
-	return TopMessage
+
+	// TopMessageFactoryモデルの作成
+	var topMessageFactory = factories.TopMessageFactory{
+		Title:         topInformation.Title,
+		Version:       topInformation.Version,
+		Detail:        topInformation.Detail,
+		Announcements: topAnnouncements,
+	}
+	return topMessageFactory
 }

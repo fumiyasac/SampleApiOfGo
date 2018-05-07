@@ -4,12 +4,18 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/fumiyasac/SampleApi/factories"
 	"github.com/fumiyasac/SampleApi/repositories"
 	"github.com/gin-gonic/gin"
 )
 
 // UserController ... 構造体宣言
 type UserController struct{}
+
+// UserRepository ... interfaceの宣言
+type UserRepository interface {
+	GetByID(id int) (factories.SingleUserFactory, bool)
+}
 
 // GetUser ... idに該当するユーザーを表示する
 func (ctrl UserController) GetUser(c *gin.Context) {
@@ -27,8 +33,8 @@ func (ctrl UserController) GetUser(c *gin.Context) {
 	}
 
 	repository := repositories.NewUserRepository()
-	user := repository.GetByID(id)
-	if user != nil {
+	user, result := repository.GetByID(id)
+	if result {
 		JSONContent = gin.H{
 			"user": user,
 		}

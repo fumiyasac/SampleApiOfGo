@@ -3,6 +3,7 @@ package repositories
 import (
 	"github.com/fumiyasac/SampleApi/database"
 	"github.com/fumiyasac/SampleApi/entities"
+	"github.com/fumiyasac/SampleApi/factories"
 	"github.com/go-xorm/xorm"
 )
 
@@ -25,11 +26,16 @@ func NewUserRepository() UserRepository {
 
 // GetByID ... 引数のidに該当するユーザー情報を取得する
 // @Get("api/v1/user/:id")
-func (m UserRepository) GetByID(id int) *entities.User {
+func (m UserRepository) GetByID(id int) (factories.SingleUserFactory, bool) {
 	var user = entities.User{ID: id}
+	var userFactory factories.SingleUserFactory
 	result, _ := engine.Get(&user)
 	if result {
-		return &user
+		userFactory = factories.SingleUserFactory{
+			ID:       user.ID,
+			Username: user.Username,
+			Password: user.Password,
+		}
 	}
-	return nil
+	return userFactory, result
 }
