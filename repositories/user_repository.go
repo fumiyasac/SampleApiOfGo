@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"github.com/fumiyasac/SampleApi/constants"
 	"github.com/fumiyasac/SampleApi/database"
 	"github.com/fumiyasac/SampleApi/entities"
 	"github.com/fumiyasac/SampleApi/factories"
@@ -32,9 +33,12 @@ func (repo UserRepository) GetByID(id int) (factories.SingleUserFactory, bool) {
 	result, _ := engine.Get(&user)
 	if result {
 		userFactory = factories.SingleUserFactory{
-			ID:       user.ID,
-			Username: user.Username,
-			Password: user.Password,
+			ID:         user.ID,
+			Username:   user.Username,
+			Password:   user.Password,
+			UserStatus: constants.GetUserStatusNameFromStatusCode(user.StatusCode),
+			CreatedAt:  user.CreatedAt,
+			UpdatedAt:  user.UpdatedAt,
 		}
 	}
 	return userFactory, result
