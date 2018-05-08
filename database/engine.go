@@ -22,7 +22,7 @@ func UseEngine() *xorm.Engine {
 func initEngine() *xorm.Engine {
 
 	// タイムゾーンの設定
-	loc, err := time.LoadLocation("UTC")
+	loc, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
 		panic(err)
 	}

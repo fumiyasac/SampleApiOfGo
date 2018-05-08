@@ -38,10 +38,11 @@ func (ctrl UserController) GetUser(c *gin.Context) {
 		JSONContent = gin.H{
 			"user": user,
 		}
+		c.JSON(http.StatusOK, JSONContent)
 	} else {
 		JSONContent = gin.H{
-			"message": "User Not Found.",
+			"error": "User Not Found.",
 		}
+		c.JSON(http.StatusNotFound, JSONContent)
 	}
-	c.JSON(http.StatusOK, JSONContent)
 }
