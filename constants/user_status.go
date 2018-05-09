@@ -7,6 +7,7 @@ type UserStatus int
 const (
 	UserSubscribed UserStatus = iota
 	UserUnsubscribed
+	UserUnknown
 )
 
 // GetString ... UserStatusからステータス名を取得する
@@ -25,10 +26,10 @@ func (u UserStatus) GetString() string {
 func GetUserStatusNameFromStatusCode(statusCode int) string {
 	switch UserStatus(statusCode) {
 	case UserSubscribed:
-		return "有効"
+		return UserSubscribed.GetString()
 	case UserUnsubscribed:
-		return "無効"
+		return UserUnsubscribed.GetString()
 	default:
-		return "不明"
+		return UserUnknown.GetString()
 	}
 }
