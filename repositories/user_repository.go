@@ -6,6 +6,7 @@ import (
 	"github.com/fumiyasac/SampleApi/entities"
 	"github.com/fumiyasac/SampleApi/factories"
 	"github.com/go-xorm/xorm"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // UserRepository ... 構造体宣言
@@ -26,7 +27,7 @@ func NewUserRepository() UserRepository {
 }
 
 // GetByID ... 引数のidに該当するユーザー情報を取得する
-// @Get("api/v1/user/:id")
+// @Get("api/v1/users/:id")
 func (repo UserRepository) GetByID(id int) (factories.SingleUserFactory, bool) {
 	var user = entities.User{}
 	var userFactory factories.SingleUserFactory
@@ -42,4 +43,20 @@ func (repo UserRepository) GetByID(id int) (factories.SingleUserFactory, bool) {
 		}
 	}
 	return userFactory, result
+}
+
+// Create ... 受け取った値をユーザー情報として新規登録する
+// @Post("api/v1/users")
+func (repo UserRepository) Create(username string, password string) bool {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return false
+	}
+	var user = entities.User{
+		Username:   username,
+		Password:   string(hash),
+		StatusCode: constants.UserSubscribed.GetRawValue(),
+	}
+	affected, _ := engine.Insert(&user)
+	return (affected > 0)
 }

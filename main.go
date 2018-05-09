@@ -29,7 +29,8 @@ func main() {
 			//エンドポイントへのリクエスト
 			v1.GET("/top", TopController.GetMessage)
 
-			v1.GET("/user/:id", UserController.GetUser)
+			v1.GET("/users/:id", UserController.GetUser)
+			v1.POST("/users", UserController.CreateUser)
 		}
 	}
 

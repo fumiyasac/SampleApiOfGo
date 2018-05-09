@@ -10,6 +10,18 @@ const (
 	UserUnknown
 )
 
+// GetRawValue ... UserStatusから値を取得する
+func (u UserStatus) GetRawValue() int {
+	switch u {
+	case UserSubscribed:
+		return 0
+	case UserUnsubscribed:
+		return 1
+	default:
+		return 2
+	}
+}
+
 // GetString ... UserStatusからステータス名を取得する
 func (u UserStatus) GetString() string {
 	switch u {
