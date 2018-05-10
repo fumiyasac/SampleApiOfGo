@@ -71,7 +71,7 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 		JSONContent = gin.H{
 			"success": "New User Cleated.",
 		}
-		c.JSON(http.StatusOK, JSONContent)
+		c.JSON(http.StatusCreated, JSONContent)
 	} else {
 		JSONContent = gin.H{
 			"error": "Internal Sever Error.",
