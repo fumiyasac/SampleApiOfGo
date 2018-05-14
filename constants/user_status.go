@@ -3,7 +3,7 @@ package constants
 // UserStatus ... ユーザーの状態に関する表示の定義
 type UserStatus int
 
-// UserStatusの定義される
+// UserStatusの定義 ... ※enumみたいに取り扱う
 const (
 	UserSubscribed UserStatus = iota
 	UserUnsubscribed

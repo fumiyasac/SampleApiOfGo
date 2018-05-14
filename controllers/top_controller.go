@@ -19,13 +19,10 @@ type TopMessageRepository interface {
 // GetMessage ... TOPメッセージを表示する
 func (ctrl TopController) GetMessage(c *gin.Context) {
 
-	var JSONContent gin.H
-
 	repository := repositories.NewTopMessageRepository()
 	topMessage := repository.GetTopMessage()
 
-	JSONContent = gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"top_message": topMessage,
-	}
-	c.JSON(http.StatusOK, JSONContent)
+	})
 }

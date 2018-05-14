@@ -4,8 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/fumiyasac/SampleApi/constants"
 	"github.com/fumiyasac/SampleApi/factories"
 	"github.com/fumiyasac/SampleApi/repositories"
+	"github.com/fumiyasac/SampleApi/validators"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,30 +24,29 @@ type UserRepository interface {
 func (ctrl UserController) GetUser(c *gin.Context) {
 
 	var id int
-	var JSONContent gin.H
 
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		JSONContent = gin.H{
-			"message": "Unprocessable Entity.",
-		}
-		c.JSON(http.StatusUnprocessableEntity, JSONContent)
+	id, paramError := strconv.Atoi(c.Param("id"))
+
+	if paramError != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": constants.ErrorMessageOfInvalidID,
+		})
 		return
 	}
 
-	repository := repositories.NewUserRepository()
-	user, result := repository.GetByID(id)
-	if result {
-		JSONContent = gin.H{
-			"user": user,
-		}
-		c.JSON(http.StatusOK, JSONContent)
-	} else {
-		JSONContent = gin.H{
-			"error": "User Not Found.",
-		}
-		c.JSON(http.StatusNotFound, JSONContent)
+	userRepository := repositories.NewUserRepository()
+	userData, fetchResult := userRepository.GetByID(id)
+
+	if fetchResult != true {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": constants.ErrorMessageOfUserNotFound,
+		})
+		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"user": userData,
+	})
 }
 
 // CreateUser ... 新規ユーザーを登録する
@@ -53,29 +54,31 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 
 	var username string
 	var password string
-	var JSONContent gin.H
 
 	username = c.PostForm("username")
 	password = c.PostForm("password")
-	if len(username) == 0 || len(password) == 0 {
-		JSONContent = gin.H{
-			"message": "Unprocessable Entity.",
-		}
-		c.JSON(http.StatusUnprocessableEntity, JSONContent)
+
+	userRequestValidator := validators.NewUserRequestValidator()
+	validatorResult := userRequestValidator.IsValidForUserCreate(username, password)
+
+	if validatorResult != true {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": constants.ErrorMessageOfInvalidValueForUserCreate,
+		})
 		return
 	}
 
-	repository := repositories.NewUserRepository()
-	result := repository.Create(username, password)
-	if result {
-		JSONContent = gin.H{
-			"success": "New User Cleated.",
-		}
-		c.JSON(http.StatusCreated, JSONContent)
-	} else {
-		JSONContent = gin.H{
-			"error": "Internal Sever Error.",
-		}
-		c.JSON(http.StatusInternalServerError, JSONContent)
+	userRepository := repositories.NewUserRepository()
+	fetchResult := userRepository.Create(username, password)
+
+	if fetchResult != true {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": constants.ErrorMessageOfInvalidValueForUserCreate,
+		})
+		return
 	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"success": constants.SuccessForUserCreate,
+	})
 }
