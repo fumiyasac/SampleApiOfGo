@@ -17,7 +17,12 @@ type UserController struct{}
 // UserRepository ... interfaceの宣言
 type UserRepository interface {
 	GetByID(id int) (factories.SingleUserFactory, bool)
-	Create(username string, password string) bool
+	Create(username string, password string, mailaddress string) bool
+}
+
+// UserValidator ... interfaceの宣言
+type UserValidator interface {
+	IsValidForUserCreate(username string, password string, mailaddress string) bool
 }
 
 // GetUser ... idに該当するユーザーを表示する
@@ -54,12 +59,14 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 
 	var username string
 	var password string
+	var mailaddress string
 
 	username = c.PostForm("username")
 	password = c.PostForm("password")
+	mailaddress = c.PostForm("mailaddress")
 
 	userRequestValidator := validators.NewUserRequestValidator()
-	validatorResult := userRequestValidator.IsValidForUserCreate(username, password)
+	validatorResult := userRequestValidator.IsValidForUserCreate(username, password, mailaddress)
 
 	if validatorResult != true {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -69,7 +76,7 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 	}
 
 	userRepository := repositories.NewUserRepository()
-	fetchResult := userRepository.Create(username, password)
+	fetchResult := userRepository.Create(username, password, mailaddress)
 
 	if fetchResult != true {
 		c.JSON(http.StatusBadRequest, gin.H{

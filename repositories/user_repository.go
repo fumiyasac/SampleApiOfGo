@@ -34,12 +34,13 @@ func (repo UserRepository) GetByID(id int) (factories.SingleUserFactory, bool) {
 	result, _ := engine.Where("id = ?", id).Get(&user)
 	if result {
 		userFactory = factories.SingleUserFactory{
-			ID:         user.ID,
-			Username:   user.Username,
-			Password:   user.Password,
-			UserStatus: constants.GetUserStatusNameFromStatusCode(user.StatusCode),
-			CreatedAt:  user.CreatedAt,
-			UpdatedAt:  user.UpdatedAt,
+			ID:          user.ID,
+			Username:    user.Username,
+			MailAddress: user.MailAddress,
+			Password:    user.Password,
+			UserStatus:  constants.GetUserStatusNameFromStatusCode(user.StatusCode),
+			CreatedAt:   user.CreatedAt,
+			UpdatedAt:   user.UpdatedAt,
 		}
 	}
 	return userFactory, result
@@ -47,15 +48,16 @@ func (repo UserRepository) GetByID(id int) (factories.SingleUserFactory, bool) {
 
 // Create ... 受け取った値をユーザー情報として新規登録する
 // @Post("api/v1/users")
-func (repo UserRepository) Create(username string, password string) bool {
+func (repo UserRepository) Create(username string, password string, mailaddress string) bool {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return false
 	}
 	var user = entities.User{
-		Username:   username,
-		Password:   string(hash),
-		StatusCode: constants.UserSubscribed.GetRawValue(),
+		Username:    username,
+		MailAddress: mailaddress,
+		Password:    string(hash),
+		StatusCode:  constants.UserSubscribed.GetRawValue(),
 	}
 	affected, _ := engine.Insert(&user)
 	return (affected > 0)
