@@ -18,11 +18,13 @@ type UserController struct{}
 type UserRepository interface {
 	GetByID(id int) (factories.SingleUserFactory, bool)
 	Create(username string, password string, mailaddress string) bool
+	UpdateByID(id int, username string, password string, mailaddress string) bool
+	DeleteByID(id int) bool
 }
 
 // UserValidator ... interfaceの宣言
 type UserValidator interface {
-	IsValidForUserCreate(username string, password string, mailaddress string) bool
+	IsValidForUserCreate(username string, password string, mailaddress string) (bool, string)
 }
 
 // GetUser ... idに該当するユーザーを表示する
@@ -66,26 +68,99 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 	mailaddress = c.PostForm("mailaddress")
 
 	userRequestValidator := validators.NewUserRequestValidator()
-	validatorResult := userRequestValidator.IsValidForUserCreate(username, password, mailaddress)
+	validatorResult, validatorErrorMessage := userRequestValidator.IsValidForUserCreate(username, password, mailaddress)
 
 	if validatorResult != true {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfInvalidValueForUserCreate,
+			"error": validatorErrorMessage,
 		})
 		return
 	}
 
 	userRepository := repositories.NewUserRepository()
-	fetchResult := userRepository.Create(username, password, mailaddress)
+	createResult := userRepository.Create(username, password, mailaddress)
 
-	if fetchResult != true {
+	if createResult != true {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfInvalidValueForUserCreate,
+			"error": constants.ErrorMessageOfFailureForUserCreate,
 		})
 		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
 		"success": constants.SuccessForUserCreate,
+	})
+}
+
+// UpdateUser ... idに該当するユーザーを更新する
+func (ctrl UserController) UpdateUser(c *gin.Context) {
+
+	var id int
+	var username string
+	var password string
+	var mailaddress string
+
+	id, paramError := strconv.Atoi(c.PostForm("id"))
+	if paramError != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": constants.ErrorMessageOfInvalidID,
+		})
+		return
+	}
+
+	username = c.PostForm("username")
+	password = c.PostForm("password")
+	mailaddress = c.PostForm("mailaddress")
+
+	userRequestValidator := validators.NewUserRequestValidator()
+	validatorResult, validatorErrorMessage := userRequestValidator.IsValidForUserCreate(username, password, mailaddress)
+
+	if validatorResult != true {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": validatorErrorMessage,
+		})
+		return
+	}
+
+	userRepository := repositories.NewUserRepository()
+	updateResult := userRepository.UpdateByID(id, username, password, mailaddress)
+
+	if updateResult != true {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": constants.ErrorMessageOfFailureForUserUpdate,
+		})
+		return
+	}
+
+	c.JSON(http.StatusNoContent, gin.H{
+		"success": constants.SuccessForUserUpdate,
+	})
+}
+
+// DeleteUser ... idに該当するユーザーを削除する
+func (ctrl UserController) DeleteUser(c *gin.Context) {
+
+	var id int
+
+	id, paramError := strconv.Atoi(c.PostForm("id"))
+	if paramError != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": constants.ErrorMessageOfInvalidID,
+		})
+		return
+	}
+
+	userRepository := repositories.NewUserRepository()
+	deleteResult := userRepository.DeleteByID(id)
+
+	if deleteResult != true {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": constants.ErrorMessageOfFailureForUserDelete,
+		})
+		return
+	}
+
+	c.JSON(http.StatusNoContent, gin.H{
+		"success": constants.SuccessForUserDelete,
 	})
 }
