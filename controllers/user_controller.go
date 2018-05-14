@@ -100,7 +100,7 @@ func (ctrl UserController) UpdateUser(c *gin.Context) {
 	var password string
 	var mailaddress string
 
-	id, paramError := strconv.Atoi(c.PostForm("id"))
+	id, paramError := strconv.Atoi(c.Param("id"))
 	if paramError != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": constants.ErrorMessageOfInvalidID,
@@ -132,7 +132,7 @@ func (ctrl UserController) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusNoContent, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"success": constants.SuccessForUserUpdate,
 	})
 }
@@ -142,7 +142,7 @@ func (ctrl UserController) DeleteUser(c *gin.Context) {
 
 	var id int
 
-	id, paramError := strconv.Atoi(c.PostForm("id"))
+	id, paramError := strconv.Atoi(c.Param("id"))
 	if paramError != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": constants.ErrorMessageOfInvalidID,
@@ -160,7 +160,7 @@ func (ctrl UserController) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusNoContent, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"success": constants.SuccessForUserDelete,
 	})
 }

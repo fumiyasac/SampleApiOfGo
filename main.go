@@ -31,8 +31,8 @@ func main() {
 
 			v1.GET("/users/:id", UserController.GetUser)
 			v1.POST("/users", UserController.CreateUser)
-			v1.PUT("/users", UserController.UpdateUser)
-			v1.DELETE("/users", UserController.DeleteUser)
+			v1.PUT("/users/:id", UserController.UpdateUser)
+			v1.DELETE("/users/:id", UserController.DeleteUser)
 		}
 	}
 

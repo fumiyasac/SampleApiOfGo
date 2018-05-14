@@ -3,8 +3,8 @@ package constants
 // ユーザー登録に関する成功メッセージ
 const (
 	SuccessForUserCreate = "新規ユーザーの登録に成功しました。"
-	SuccessForUserUpdate = "新規ユーザーの更新に成功しました。"
-	SuccessForUserDelete = "新規ユーザーの削除に成功しました。"
+	SuccessForUserUpdate = "既存ユーザーの更新に成功しました。"
+	SuccessForUserDelete = "既存ユーザーの削除に成功しました。"
 )
 
 // ユーザー登録に関するエラーメッセージ

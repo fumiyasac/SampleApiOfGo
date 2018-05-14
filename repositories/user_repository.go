@@ -71,7 +71,7 @@ func (repo UserRepository) Create(username string, password string, mailaddress 
 }
 
 // UpdateByID ... 引数のidに該当するユーザー情報を更新する
-// @PUT("api/v1/users")
+// @PUT("api/v1/users/:id")
 func (repo UserRepository) UpdateByID(id int, username string, password string, mailaddress string) bool {
 
 	var user = entities.User{}
@@ -90,15 +90,14 @@ func (repo UserRepository) UpdateByID(id int, username string, password string, 
 		Username:    username,
 		MailAddress: mailaddress,
 		Password:    string(hash),
-		StatusCode:  constants.UserSubscribed.GetRawValue(),
 	}
 
-	affected, _ := engine.ID(id).Update(&user)
+	affected, _ := engine.Where("id = ?", id).Update(&user)
 	return (affected > 0)
 }
 
 // DeleteByID ... 引数のidに該当するユーザー情報を物理削除する
-// @DELETE("api/v1/users")
+// @DELETE("api/v1/users/:id")
 func (repo UserRepository) DeleteByID(id int) bool {
 
 	var user = entities.User{}
@@ -108,6 +107,6 @@ func (repo UserRepository) DeleteByID(id int) bool {
 		return false
 	}
 
-	affected, _ := engine.ID(id).Delete(&user)
+	affected, _ := engine.Where("id = ?", id).Delete(&user)
 	return (affected > 0)
 }
