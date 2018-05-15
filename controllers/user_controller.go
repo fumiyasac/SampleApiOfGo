@@ -16,6 +16,7 @@ type UserController struct{}
 
 // UserRepository ... interfaceの宣言
 type UserRepository interface {
+	GetLists(id int) (factories.SingleUserFactory, bool)
 	GetByID(id int) (factories.SingleUserFactory, bool)
 	Create(username string, password string, mailaddress string) bool
 	UpdateByID(id int, username string, password string, mailaddress string) bool
@@ -25,6 +26,24 @@ type UserRepository interface {
 // UserValidator ... interfaceの宣言
 type UserValidator interface {
 	IsValidForUserCreate(username string, password string, mailaddress string) (bool, string)
+}
+
+// GetUsers ... idに該当するユーザーを表示する
+func (ctrl UserController) GetUsers(c *gin.Context) {
+
+	userRepository := repositories.NewUserRepository()
+	userData, fetchResult := userRepository.GetLists()
+
+	if fetchResult != true {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": constants.ErrorMessageOfUserNotFound,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"users": userData,
+	})
 }
 
 // GetUser ... idに該当するユーザーを表示する

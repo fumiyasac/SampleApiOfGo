@@ -14,3 +14,8 @@ type SingleUserFactory struct {
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
+
+// UserItemsFactory ... JSONにマッピングする構造体の宣言
+type UserItemsFactory struct {
+	Items []SingleUserFactory `json:"items"`
+}

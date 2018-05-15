@@ -26,6 +26,37 @@ func NewUserRepository() UserRepository {
 	return UserRepository{}
 }
 
+// GetLists ... ユーザー一覧情報を取得する
+// @GET("api/v1/users")
+func (repo UserRepository) GetLists() (factories.UserItemsFactory, bool) {
+
+	var users []entities.User
+	var userFactories []factories.SingleUserFactory
+	var userItemsFactory factories.UserItemsFactory
+
+	err := engine.Find(&users)
+	if err != nil {
+		return userItemsFactory, false
+	}
+
+	for _, user := range users {
+		userFactories = append(userFactories, factories.SingleUserFactory{
+			ID:          user.ID,
+			Username:    user.Username,
+			MailAddress: user.MailAddress,
+			Password:    user.Password,
+			UserStatus:  constants.GetUserStatusNameFromStatusCode(user.StatusCode),
+			CreatedAt:   user.CreatedAt,
+			UpdatedAt:   user.UpdatedAt,
+		})
+	}
+
+	userItemsFactory = factories.UserItemsFactory{
+		Items: userFactories,
+	}
+	return userItemsFactory, true
+}
+
 // GetByID ... 引数のidに該当するユーザー情報を取得する
 // @GET("api/v1/users/:id")
 func (repo UserRepository) GetByID(id int) (factories.SingleUserFactory, bool) {

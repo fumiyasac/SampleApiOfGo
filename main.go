@@ -26,10 +26,12 @@ func main() {
 			TopController := new(controllers.TopController)
 			UserController := new(controllers.UserController)
 
-			//エンドポイントへのリクエスト
+			//TOP用のメッセージ表示用のエンドポイント
 			v1.GET("/top", TopController.GetMessage)
 
+			//ユーザー情報のに関する処理のエンドポイント
 			v1.GET("/users/:id", UserController.GetUser)
+			v1.GET("/users", UserController.GetUsers)
 			v1.POST("/users", UserController.CreateUser)
 			v1.PUT("/users/:id", UserController.UpdateUser)
 			v1.DELETE("/users/:id", UserController.DeleteUser)

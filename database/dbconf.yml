@@ -1,0 +1,13 @@
+
+test:
+    driver: mymysql
+    open: tcp:localhost:3306*sample_api/root/fumiya0921
+
+development:
+    driver: mymysql
+    open: tcp:localhost:3306*sample_api/root/fumiya0921
+    
+production:
+    driver: mymysql
+    open: tcp:localhost:3306*sample_api/root/fumiya0921
+
