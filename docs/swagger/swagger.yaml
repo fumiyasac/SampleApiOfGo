@@ -1,0 +1,41 @@
+basePath: /api/v1
+definitions:
+  factories.TopMessageFactory:
+    properties:
+      announcements:
+        items:
+          type: '&{entities TopAnnouncement}'
+        type: array
+      detail:
+        type: string
+      title:
+        type: string
+      version:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: just1factory@gmail.com
+    name: fumiyasac
+    url: https://qiita.com/fumiyasac@github
+  description: This is a sample API server. (This is a practice of fumiyasac.)
+  license: {}
+  title: Sample API
+  version: "1.0"
+paths:
+  /top:
+    get:
+      consumes:
+      - application/json
+      description: TOP用の挨拶メッセージとこのAPIに関する概要や現行バージョン・更新履歴を表示する
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/factories.TopMessageFactory'
+            type: object
+      summary: このAPIに関するメッセージを表示する
+swagger: "2.0"

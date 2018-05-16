@@ -1,0 +1,61 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample API server. (This is a practice of fumiyasac.)",
+        "title": "Sample API",
+        "contact": {
+            "name": "fumiyasac",
+            "url": "https://qiita.com/fumiyasac@github",
+            "email": "just1factory@gmail.com"
+        },
+        "license": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/top": {
+            "get": {
+                "description": "TOP用の挨拶メッセージとこのAPIに関する概要や現行バージョン・更新履歴を表示する",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "このAPIに関するメッセージを表示する",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/factories.TopMessageFactory"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "factories.TopMessageFactory": {
+            "type": "object",
+            "properties": {
+                "announcements": {
+                    "type": "array",
+                    "items": {
+                        "type": "\u0026{entities TopAnnouncement}"
+                    }
+                },
+                "detail": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

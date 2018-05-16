@@ -16,7 +16,13 @@ type TopMessageRepository interface {
 	GetTopMessage() factories.TopMessageFactory
 }
 
-// GetMessage ... TOPメッセージを表示する
+// GetMessage godoc
+// @Summary このAPIに関するメッセージを表示する
+// @Description TOP用の挨拶メッセージとこのAPIに関する概要や現行バージョン・更新履歴を表示する
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} factories.TopMessageFactory
+// @Router /top [get]
 func (ctrl TopController) GetMessage(c *gin.Context) {
 
 	repository := repositories.NewTopMessageRepository()
