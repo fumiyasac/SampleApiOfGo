@@ -28,25 +28,39 @@ type UserValidator interface {
 	IsValidForUserCreate(username string, password string, mailaddress string) (bool, string)
 }
 
-// GetUsers ... idに該当するユーザーを表示する
+// GetUsers godoc
+// @Summary ユーザー一覧を表示する
+// @Description userテーブルに登録されているデータを全件取得する
+// @Accept json
+// @Produce json
+// @Success 200 {object} factories.UserItemsFactory
+// @Failure 400 {object} factories.APIErrorMessageFactory
+// @Router /users [get]
 func (ctrl UserController) GetUsers(c *gin.Context) {
 
 	userRepository := repositories.NewUserRepository()
 	userData, fetchResult := userRepository.GetLists()
 
 	if fetchResult != true {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfUserNotFound,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfUserNotFound,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"users": userData,
-	})
+	c.JSON(http.StatusOK, userData)
 }
 
-// GetUser ... idに該当するユーザーを表示する
+// GetUser godoc
+// @Summary ユーザーデータを1件表示する
+// @Description userテーブルに登録されているデータのうちパラメーター(id)に該当するものを1件取得する
+// @Accept json
+// @Produce json
+// @Param id path int true "ユーザーID"
+// @Success 200 {object} factories.SingleUserFactory
+// @Failure 400 {object} factories.APIErrorMessageFactory
+// @Router /users/{id} [get]
 func (ctrl UserController) GetUser(c *gin.Context) {
 
 	var id int
@@ -54,9 +68,10 @@ func (ctrl UserController) GetUser(c *gin.Context) {
 	id, paramError := strconv.Atoi(c.Param("id"))
 
 	if paramError != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfInvalidID,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfInvalidID,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
@@ -64,18 +79,27 @@ func (ctrl UserController) GetUser(c *gin.Context) {
 	userData, fetchResult := userRepository.GetByID(id)
 
 	if fetchResult != true {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfUserNotFound,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfUserNotFound,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"user": userData,
-	})
+	c.JSON(http.StatusOK, userData)
 }
 
-// CreateUser ... 新規ユーザーを登録する
+// CreateUser godoc
+// @Summary ユーザーデータを1件新規登録する
+// @Description userテーブルへ新規データを1件登録する
+// @Accept json
+// @Produce json
+// @Param username body string true "ユーザー名"
+// @Param password body string true "パスワード"
+// @Param mailaddress body string true "メールアドレス"
+// @Success 201 {object} factories.APISuccessMessageFactory
+// @Failure 400 {object} factories.APIErrorMessageFactory
+// @Router /users [post]
 func (ctrl UserController) CreateUser(c *gin.Context) {
 
 	var username string
@@ -90,9 +114,10 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 	validatorResult, validatorErrorMessage := userRequestValidator.IsValidForUserCreate(username, password, mailaddress)
 
 	if validatorResult != true {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": validatorErrorMessage,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: validatorErrorMessage,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
@@ -100,18 +125,31 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 	createResult := userRepository.Create(username, password, mailaddress)
 
 	if createResult != true {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfFailureForUserCreate,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfFailureForUserCreate,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"success": constants.SuccessForUserCreate,
-	})
+	successMessage := factories.APISuccessMessageFactory{
+		Message: constants.SuccessForUserCreate,
+	}
+	c.JSON(http.StatusCreated, successMessage)
 }
 
-// UpdateUser ... idに該当するユーザーを更新する
+// UpdateUser godoc
+// @Summary ユーザーデータを1件更新する
+// @Description userテーブルに登録されているデータのうちパラメーター(id)に該当するものを1件更新する
+// @Accept json
+// @Produce json
+// @Param id path int true "ユーザーID"
+// @Param username body string true "ユーザー名"
+// @Param password body string true "パスワード"
+// @Param mailaddress body string true "メールアドレス"
+// @Success 200 {object} factories.APISuccessMessageFactory
+// @Failure 400 {object} factories.APIErrorMessageFactory
+// @Router /users/{id} [put]
 func (ctrl UserController) UpdateUser(c *gin.Context) {
 
 	var id int
@@ -121,9 +159,10 @@ func (ctrl UserController) UpdateUser(c *gin.Context) {
 
 	id, paramError := strconv.Atoi(c.Param("id"))
 	if paramError != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfInvalidID,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfInvalidID,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
@@ -135,9 +174,10 @@ func (ctrl UserController) UpdateUser(c *gin.Context) {
 	validatorResult, validatorErrorMessage := userRequestValidator.IsValidForUserCreate(username, password, mailaddress)
 
 	if validatorResult != true {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": validatorErrorMessage,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: validatorErrorMessage,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
@@ -145,27 +185,38 @@ func (ctrl UserController) UpdateUser(c *gin.Context) {
 	updateResult := userRepository.UpdateByID(id, username, password, mailaddress)
 
 	if updateResult != true {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfFailureForUserUpdate,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfFailureForUserUpdate,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"success": constants.SuccessForUserUpdate,
-	})
+	successMessage := factories.APISuccessMessageFactory{
+		Message: constants.SuccessForUserUpdate,
+	}
+	c.JSON(http.StatusOK, successMessage)
 }
 
-// DeleteUser ... idに該当するユーザーを削除する
+// DeleteUser godoc
+// @Summary ユーザーデータを1件削除する
+// @Description userテーブルに登録されているデータのうちパラメーター(id)に該当するものを1件削除する
+// @Accept json
+// @Produce json
+// @Param id path int true "ユーザーID"
+// @Success 200 {object} factories.APISuccessMessageFactory
+// @Failure 400 {object} factories.APIErrorMessageFactory
+// @Router /users/{id} [delete]
 func (ctrl UserController) DeleteUser(c *gin.Context) {
 
 	var id int
 
 	id, paramError := strconv.Atoi(c.Param("id"))
 	if paramError != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfInvalidID,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfInvalidID,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
@@ -173,13 +224,15 @@ func (ctrl UserController) DeleteUser(c *gin.Context) {
 	deleteResult := userRepository.DeleteByID(id)
 
 	if deleteResult != true {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": constants.ErrorMessageOfFailureForUserDelete,
-		})
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfFailureForUserDelete,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"success": constants.SuccessForUserDelete,
-	})
+	successMessage := factories.APISuccessMessageFactory{
+		Message: constants.SuccessForUserDelete,
+	}
+	c.JSON(http.StatusOK, successMessage)
 }

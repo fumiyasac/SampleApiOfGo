@@ -52,7 +52,7 @@ func (repo UserRepository) GetLists() (factories.UserItemsFactory, bool) {
 	}
 
 	userItemsFactory = factories.UserItemsFactory{
-		Items: userFactories,
+		Users: userFactories,
 	}
 	return userItemsFactory, true
 }

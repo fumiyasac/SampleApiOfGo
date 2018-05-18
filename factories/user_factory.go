@@ -17,5 +17,5 @@ type SingleUserFactory struct {
 
 // UserItemsFactory ... JSONにマッピングする構造体の宣言
 type UserItemsFactory struct {
-	Items []SingleUserFactory `json:"items"`
+	Users []SingleUserFactory `json:"users"`
 }

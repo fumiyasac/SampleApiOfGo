@@ -1,5 +1,32 @@
 basePath: /api/v1
 definitions:
+  factories.APIErrorMessageFactory:
+    properties:
+      error:
+        type: string
+    type: object
+  factories.APISuccessMessageFactory:
+    properties:
+      success:
+        type: string
+    type: object
+  factories.SingleUserFactory:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      mailaddress:
+        type: string
+      password:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
   factories.TopMessageFactory:
     properties:
       announcements:
@@ -12,6 +39,13 @@ definitions:
         type: string
       version:
         type: string
+    type: object
+  factories.UserItemsFactory:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/factories.SingleUserFactory'
+        type: array
     type: object
 host: localhost:8080
 info:
@@ -38,4 +72,151 @@ paths:
             $ref: '#/definitions/factories.TopMessageFactory'
             type: object
       summary: このAPIに関するメッセージを表示する
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: userテーブルに登録されているデータを全件取得する
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/factories.UserItemsFactory'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/factories.APIErrorMessageFactory'
+            type: object
+      summary: ユーザー一覧を表示する
+    post:
+      consumes:
+      - application/json
+      description: userテーブルへ新規データを1件登録する
+      parameters:
+      - description: ユーザー名
+        in: body
+        name: username
+        required: true
+        schema:
+          type: object
+      - description: パスワード
+        in: body
+        name: password
+        required: true
+        schema:
+          type: object
+      - description: メールアドレス
+        in: body
+        name: mailaddress
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/factories.APISuccessMessageFactory'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/factories.APIErrorMessageFactory'
+            type: object
+      summary: ユーザーデータを1件新規登録する
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: userテーブルに登録されているデータのうちパラメーター(id)に該当するものを1件削除する
+      parameters:
+      - description: ユーザーID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/factories.APISuccessMessageFactory'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/factories.APIErrorMessageFactory'
+            type: object
+      summary: ユーザーデータを1件削除する
+    get:
+      consumes:
+      - application/json
+      description: userテーブルに登録されているデータのうちパラメーター(id)に該当するものを1件取得する
+      parameters:
+      - description: ユーザーID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/factories.SingleUserFactory'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/factories.APIErrorMessageFactory'
+            type: object
+      summary: ユーザーデータを1件表示する
+    put:
+      consumes:
+      - application/json
+      description: userテーブルに登録されているデータのうちパラメーター(id)に該当するものを1件更新する
+      parameters:
+      - description: ユーザーID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: ユーザー名
+        in: body
+        name: username
+        required: true
+        schema:
+          type: object
+      - description: パスワード
+        in: body
+        name: password
+        required: true
+        schema:
+          type: object
+      - description: メールアドレス
+        in: body
+        name: mailaddress
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/factories.APISuccessMessageFactory'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/factories.APIErrorMessageFactory'
+            type: object
+      summary: ユーザーデータを1件更新する
 swagger: "2.0"
