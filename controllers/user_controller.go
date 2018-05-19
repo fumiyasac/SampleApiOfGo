@@ -94,21 +94,29 @@ func (ctrl UserController) GetUser(c *gin.Context) {
 // @Description userテーブルへ新規データを1件登録する
 // @Accept json
 // @Produce json
-// @Param username body string true "ユーザー名"
-// @Param password body string true "パスワード"
-// @Param mailaddress body string true "メールアドレス"
+// @Param request body object true "(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス"
 // @Success 201 {object} factories.APISuccessMessageFactory
 // @Failure 400 {object} factories.APIErrorMessageFactory
 // @Router /users [post]
 func (ctrl UserController) CreateUser(c *gin.Context) {
 
+	var requestUserJSONFactory factories.RequestUserJSONFactory
 	var username string
 	var password string
 	var mailaddress string
 
-	username = c.PostForm("username")
-	password = c.PostForm("password")
-	mailaddress = c.PostForm("mailaddress")
+	JSONError := c.ShouldBindJSON(&requestUserJSONFactory)
+	if JSONError != nil {
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfInvalidRequest,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
+		return
+	}
+
+	username = requestUserJSONFactory.Username
+	password = requestUserJSONFactory.Password
+	mailaddress = requestUserJSONFactory.Mailaddress
 
 	userRequestValidator := validators.NewUserRequestValidator()
 	validatorResult, validatorErrorMessage := userRequestValidator.IsValidForUserCreate(username, password, mailaddress)
@@ -144,15 +152,14 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "ユーザーID"
-// @Param username body string true "ユーザー名"
-// @Param password body string true "パスワード"
-// @Param mailaddress body string true "メールアドレス"
+// @Param request body object true "(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス"
 // @Success 200 {object} factories.APISuccessMessageFactory
 // @Failure 400 {object} factories.APIErrorMessageFactory
 // @Router /users/{id} [put]
 func (ctrl UserController) UpdateUser(c *gin.Context) {
 
 	var id int
+	var requestUserJSONFactory factories.RequestUserJSONFactory
 	var username string
 	var password string
 	var mailaddress string
@@ -166,9 +173,18 @@ func (ctrl UserController) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	username = c.PostForm("username")
-	password = c.PostForm("password")
-	mailaddress = c.PostForm("mailaddress")
+	JSONError := c.ShouldBindJSON(&requestUserJSONFactory)
+	if JSONError != nil {
+		errorMessage := factories.APIErrorMessageFactory{
+			Message: constants.ErrorMessageOfInvalidRequest,
+		}
+		c.JSON(http.StatusBadRequest, errorMessage)
+		return
+	}
+
+	username = requestUserJSONFactory.Username
+	password = requestUserJSONFactory.Password
+	mailaddress = requestUserJSONFactory.Mailaddress
 
 	userRequestValidator := validators.NewUserRequestValidator()
 	validatorResult, validatorErrorMessage := userRequestValidator.IsValidForUserCreate(username, password, mailaddress)
