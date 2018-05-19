@@ -3,28 +3,49 @@ definitions:
   factories.APIErrorMessageFactory:
     properties:
       error:
+        example: APIの処理に失敗しました。
         type: string
     type: object
   factories.APISuccessMessageFactory:
     properties:
       success:
+        example: APIの処理に成功しました。
+        type: string
+    type: object
+  factories.RequestUserJSONFactory:
+    properties:
+      mailaddress:
+        example: 0123@example.com
+        type: string
+      password:
+        example: passwordis0123
+        type: string
+      username:
+        example: usernameis0123
         type: string
     type: object
   factories.SingleUserFactory:
     properties:
       created_at:
+        example: "2018-05-15T12:59:09+09:00"
         type: string
       id:
+        example: 1
         type: integer
       mailaddress:
+        example: sample@example.com
         type: string
       password:
+        example: (crypted strings...)
         type: string
       status:
+        example: 有効
         type: string
       updated_at:
+        example: APIの処理に失敗しました。
         type: string
       username:
+        example: samplename
         type: string
     type: object
   factories.TopMessageFactory:
@@ -34,10 +55,13 @@ definitions:
           type: '&{entities TopAnnouncement}'
         type: array
       detail:
+        example: 詳細情報が入ります
         type: string
       title:
+        example: タイトル情報が入ります
         type: string
       version:
+        example: 1.x
         type: string
     type: object
   factories.UserItemsFactory:
@@ -96,12 +120,12 @@ paths:
       - application/json
       description: userテーブルへ新規データを1件登録する
       parameters:
-      - description: '(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress:
-          メールアドレス'
+      - description: 'username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス'
         in: body
         name: request
         required: true
         schema:
+          $ref: '#/definitions/factories.RequestUserJSONFactory'
           type: object
       produces:
       - application/json
@@ -176,12 +200,12 @@ paths:
         name: id
         required: true
         type: integer
-      - description: '(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress:
-          メールアドレス'
+      - description: 'username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス'
         in: body
         name: request
         required: true
         schema:
+          $ref: '#/definitions/factories.RequestUserJSONFactory'
           type: object
       produces:
       - application/json

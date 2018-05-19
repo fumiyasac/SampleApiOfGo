@@ -94,7 +94,7 @@ func (ctrl UserController) GetUser(c *gin.Context) {
 // @Description userテーブルへ新規データを1件登録する
 // @Accept json
 // @Produce json
-// @Param request body object true "(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス"
+// @Param request body factories.RequestUserJSONFactory true "username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス"
 // @Success 201 {object} factories.APISuccessMessageFactory
 // @Failure 400 {object} factories.APIErrorMessageFactory
 // @Router /users [post]
@@ -152,7 +152,7 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "ユーザーID"
-// @Param request body object true "(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス"
+// @Param request body factories.RequestUserJSONFactory true "username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス"
 // @Success 200 {object} factories.APISuccessMessageFactory
 // @Failure 400 {object} factories.APIErrorMessageFactory
 // @Router /users/{id} [put]

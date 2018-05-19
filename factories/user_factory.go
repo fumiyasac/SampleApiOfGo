@@ -6,13 +6,13 @@ import (
 
 // SingleUserFactory ... JSONにマッピングする構造体の宣言
 type SingleUserFactory struct {
-	ID          int       `json:"id"`
-	Username    string    `json:"username"`
-	MailAddress string    `json:"mailaddress"`
-	Password    string    `json:"password"`
-	UserStatus  string    `json:"status"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID          int       `json:"id" example:"1"`
+	Username    string    `json:"username" example:"samplename"`
+	MailAddress string    `json:"mailaddress" example:"sample@example.com"`
+	Password    string    `json:"password" example:"(crypted strings...)"`
+	UserStatus  string    `json:"status" example:"有効"`
+	CreatedAt   time.Time `json:"created_at" example:"2018-05-15T12:59:09+09:00"`
+	UpdatedAt   time.Time `json:"updated_at" example:"APIの処理に失敗しました。"`
 }
 
 // UserItemsFactory ... JSONにマッピングする構造体の宣言

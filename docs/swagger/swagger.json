@@ -73,12 +73,13 @@
                 "summary": "ユーザーデータを1件新規登録する",
                 "parameters": [
                     {
-                        "description": "(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス",
+                        "description": "username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "type": "object",
+                            "$ref": "#/definitions/factories.RequestUserJSONFactory"
                         }
                     }
                 ],
@@ -154,12 +155,13 @@
                         "required": true
                     },
                     {
-                        "description": "(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス",
+                        "description": "username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
+                            "type": "object",
+                            "$ref": "#/definitions/factories.RequestUserJSONFactory"
                         }
                     }
                 ],
@@ -222,7 +224,8 @@
             "type": "object",
             "properties": {
                 "error": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "APIの処理に失敗しました。"
                 }
             }
         },
@@ -230,7 +233,25 @@
             "type": "object",
             "properties": {
                 "success": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "APIの処理に成功しました。"
+                }
+            }
+        },
+        "factories.RequestUserJSONFactory": {
+            "type": "object",
+            "properties": {
+                "mailaddress": {
+                    "type": "string",
+                    "example": "0123@example.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "passwordis0123"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "usernameis0123"
                 }
             }
         },
@@ -238,25 +259,32 @@
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2018-05-15T12:59:09+09:00"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "mailaddress": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "sample@example.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "(crypted strings...)"
                 },
                 "status": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "有効"
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "APIの処理に失敗しました。"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "samplename"
                 }
             }
         },
@@ -270,13 +298,16 @@
                     }
                 },
                 "detail": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "詳細情報が入ります"
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "タイトル情報が入ります"
                 },
                 "version": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1.x"
                 }
             }
         },
