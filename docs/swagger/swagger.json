@@ -288,13 +288,34 @@
                 }
             }
         },
+        "factories.TopAnnouncementFactory": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "example": "お知らせのカテゴリ情報が入ります"
+                },
+                "dateString": {
+                    "type": "string",
+                    "example": "2018-05-02"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "type": "string",
+                    "example": "お知らせのタイトル情報が入ります"
+                }
+            }
+        },
         "factories.TopMessageFactory": {
             "type": "object",
             "properties": {
                 "announcements": {
                     "type": "array",
                     "items": {
-                        "type": "\u0026{entities TopAnnouncement}"
+                        "$ref": "#/definitions/factories.TopAnnouncementFactory"
                     }
                 },
                 "detail": {

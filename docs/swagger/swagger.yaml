@@ -48,11 +48,26 @@ definitions:
         example: samplename
         type: string
     type: object
+  factories.TopAnnouncementFactory:
+    properties:
+      category:
+        example: お知らせのカテゴリ情報が入ります
+        type: string
+      dateString:
+        example: "2018-05-02"
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: お知らせのタイトル情報が入ります
+        type: string
+    type: object
   factories.TopMessageFactory:
     properties:
       announcements:
         items:
-          type: '&{entities TopAnnouncement}'
+          $ref: '#/definitions/factories.TopAnnouncementFactory'
         type: array
       detail:
         example: 詳細情報が入ります
