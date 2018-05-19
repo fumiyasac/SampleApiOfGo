@@ -96,21 +96,10 @@ paths:
       - application/json
       description: userテーブルへ新規データを1件登録する
       parameters:
-      - description: ユーザー名
+      - description: '(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress:
+          メールアドレス'
         in: body
-        name: username
-        required: true
-        schema:
-          type: object
-      - description: パスワード
-        in: body
-        name: password
-        required: true
-        schema:
-          type: object
-      - description: メールアドレス
-        in: body
-        name: mailaddress
+        name: request
         required: true
         schema:
           type: object
@@ -187,21 +176,10 @@ paths:
         name: id
         required: true
         type: integer
-      - description: ユーザー名
+      - description: '(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress:
+          メールアドレス'
         in: body
-        name: username
-        required: true
-        schema:
-          type: object
-      - description: パスワード
-        in: body
-        name: password
-        required: true
-        schema:
-          type: object
-      - description: メールアドレス
-        in: body
-        name: mailaddress
+        name: request
         required: true
         schema:
           type: object

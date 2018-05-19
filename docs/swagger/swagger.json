@@ -73,26 +73,8 @@
                 "summary": "ユーザーデータを1件新規登録する",
                 "parameters": [
                     {
-                        "description": "ユーザー名",
-                        "name": "username",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object"
-                        }
-                    },
-                    {
-                        "description": "パスワード",
-                        "name": "password",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object"
-                        }
-                    },
-                    {
-                        "description": "メールアドレス",
-                        "name": "mailaddress",
+                        "description": "(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -172,26 +154,8 @@
                         "required": true
                     },
                     {
-                        "description": "ユーザー名",
-                        "name": "username",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object"
-                        }
-                    },
-                    {
-                        "description": "パスワード",
-                        "name": "password",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object"
-                        }
-                    },
-                    {
-                        "description": "メールアドレス",
-                        "name": "mailaddress",
+                        "description": "(リクエストで有効なJSONの値) username: ユーザー名 ・ password: パスワード ・ mailaddress: メールアドレス",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {

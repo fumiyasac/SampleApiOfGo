@@ -10,6 +10,7 @@ const (
 // ユーザー登録に関するエラーメッセージ
 const (
 	ErrorMessageOfInvalidID            = "ユーザーIDが不正です。"
+	ErrorMessageOfInvalidRequest       = "ユーザーのリクエストが不正です。"
 	ErrorMessageOfUserNotFound         = "該当のユーザーが見つかりませんでした。"
 	ErrorMessageOfFailureForUserCreate = "新規ユーザーの登録に失敗しました。"
 	ErrorMessageOfFailureForUserUpdate = "新規ユーザーの更新に失敗しました。"
