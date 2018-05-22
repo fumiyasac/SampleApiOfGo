@@ -36,8 +36,8 @@ __1. API構築に関わるもの__
 | パッケージ名 | 用途 |
 |:---|:---|
 |[Gin](https://github.com/gin-gonic/gin) |APIのルーティング管理 |
-|[xorm](https://github.com/go-xorm/xorm) |MySQLでのデータ取得用のORM |
-|[bcrypt](https://gowebexamples.com/password-hashing/) |パスワードのハッシュ化<br>[【Go言語】パスワードをハッシュ化(bcrypt)](http://blog.motikan2010.com/entry/2017/02/13/%E3%80%90Go%E8%A8%80%E8%AA%9E%E3%80%91%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89%E3%82%92%E3%83%8F%E3%83%83%E3%82%B7%E3%83%A5%E5%8C%96%28bcrypt%29) |
+|[xorm](https://github.com/go-xorm/xorm) |MySQLでのデータ取得用のORM<br>参考: [GinでORM(xorm)を使ってみる](http://suga-tech3.hatenablog.com/entry/2016/09/08/184831) |
+|[bcrypt](https://gowebexamples.com/password-hashing/) |パスワードのハッシュ化<br>参考: [【Go言語】パスワードをハッシュ化(bcrypt)](http://blog.motikan2010.com/entry/2017/02/13/%E3%80%90Go%E8%A8%80%E8%AA%9E%E3%80%91%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89%E3%82%92%E3%83%8F%E3%83%83%E3%82%B7%E3%83%A5%E5%8C%96%28bcrypt%29) |
 
 __2. 運用保守に関わるもの__
 
