@@ -47,6 +47,7 @@ __2. 運用保守に関わるもの__
 
 | パッケージ名 | 用途 |
 |:---|:---|
+|[dep](https://github.com/golang/dep)|パッケージの依存関係管理ツール |
 |[goose](https://github.com/pressly/goose) |MySQLのDBマイグレーションツール |
 |[swag](https://github.com/swaggo/swag)<br>[gin-swagger](https://github.com/swaggo/gin-swagger)<br>[gin-swagger/swaggerFiles](https://github.com/swaggo/gin-swagger/swaggerFiles)<br>[go.uuid](go.uuid) |Ginを利用した構成でGodocからSwaggerによるAPI定義書の書き出し |
 
