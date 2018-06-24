@@ -9,6 +9,7 @@ import (
 
 // ReverseProxyHandler ... リバースプロキシを作成する
 func ReverseProxyHandler(req *http.Request, res http.ResponseWriter) {
+
 	// MEMO: リモートAPIのOriginURLを記載する
 	remoteURL, error := url.Parse("https://www.example.com/api")
 	if error != nil {
