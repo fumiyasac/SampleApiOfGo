@@ -14,8 +14,10 @@
 |`factories` |APIレスポンス形式の雛形となる構造体を格納する。 |
 |`repositories` |APIレスポンスを構築するためのロジックに関わるものを格納する。 |
 |`static` |HTMLやCSS等の静的ファイルに関わるものを格納する。 |
-|`validators` |エンドポイントからControllerに渡された値の妥当性検証に関わるものを格納する。 |
 |`tests` |ValidatorsやRepository等のテストコードを格納する。 |
+|`validators` |エンドポイントからControllerに渡された値の妥当性検証に関わるものを格納する。 |
+|`vendor` |インストールしたパッケージを格納する。 |
+|`Gopkg.lock`<br>`Gopkg.toml` |パッケージの依存関係を管理する。 |
 |`main.go` |主にここではエンドポイントの管理を担当している。 |
 
 大雑把な処理の流れは下記のような流れになります。

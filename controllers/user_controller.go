@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gin-gonic/gin/binding"
+
 	"github.com/fumiyasac/SampleApi/constants"
 	"github.com/fumiyasac/SampleApi/factories"
 	"github.com/fumiyasac/SampleApi/repositories"
@@ -105,7 +107,7 @@ func (ctrl UserController) CreateUser(c *gin.Context) {
 	var password string
 	var mailaddress string
 
-	JSONError := c.ShouldBindJSON(&requestUserJSONFactory)
+	JSONError := c.ShouldBindWith(&requestUserJSONFactory, binding.JSON)
 	if JSONError != nil {
 		errorMessage := factories.APIErrorMessageFactory{
 			Message: constants.ErrorMessageOfInvalidRequest,
@@ -173,7 +175,7 @@ func (ctrl UserController) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	JSONError := c.ShouldBindJSON(&requestUserJSONFactory)
+	JSONError := c.ShouldBindWith(&requestUserJSONFactory, binding.JSON)
 	if JSONError != nil {
 		errorMessage := factories.APIErrorMessageFactory{
 			Message: constants.ErrorMessageOfInvalidRequest,

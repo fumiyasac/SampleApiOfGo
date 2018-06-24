@@ -280,7 +280,7 @@
                 },
                 "updated_at": {
                     "type": "string",
-                    "example": "APIの処理に失敗しました。"
+                    "example": "2018-05-15T12:59:09+09:00"
                 },
                 "username": {
                     "type": "string",

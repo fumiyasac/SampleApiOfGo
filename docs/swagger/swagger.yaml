@@ -42,7 +42,7 @@ definitions:
         example: 有効
         type: string
       updated_at:
-        example: APIの処理に失敗しました。
+        example: "2018-05-15T12:59:09+09:00"
         type: string
       username:
         example: samplename
