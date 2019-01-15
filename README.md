@@ -128,3 +128,17 @@ $ go run main.go
 
 + [チェック!](http://localhost:8080/swagger/index.html)
 
+__4. その他気になったメモ集:__
+
+参考: 自分の環境で利用しているのはMySQL5.6系をローカルにインストールして利用しています。
+
++ [MySQL5.6をHomebrewでmacOSにインストールする手順](https://weblabo.oscasierra.net/mysql-56-homebrew-install/)
+
+参考: MySQLが起動できなかったので、再度`$ brew ...`でMySQLをアンインストール→インストールを行なった際に下記の情報で解決はできた。
+
++ [mysqlが起動できない](https://qiita.com/hondy12345/items/d32ed749fb49e9da7de6)
++ [ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/tmp/mysql.sock' (38)](https://sankame.github.io/blog/2017-11-20-fail_to_connect_mysql/)
+
+※ 開発環境であっても`root`ユーザーにパスワードにもパスワードを設定しておくと良いと思います。（本来はDockerにすべきなんだが...）
+
++ [SQLユーザー要注意！意外と知らないMySQLのrootパスワード設定方法](https://blog.codecamp.jp/root-password)
