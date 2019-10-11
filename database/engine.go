@@ -30,7 +30,7 @@ func initEngine() *xorm.Engine {
 
 	// サーバー情報の設定
 	dbUser := "root"
-	dbPass := "fumiya0921"
+	dbPass := ""
 	dbHost := "127.0.0.1"
 	dbPort := 3306
 	dbName := "sample_api"
